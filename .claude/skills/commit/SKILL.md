@@ -5,7 +5,7 @@ description: Stage and commit changes to this repository following the project's
 
 # Commit
 
-Follow the format defined in [standard/commit-format.md](../../../standard/commit-format.md).
+Follow the format defined in [standards/commit-format.md](../../../standards/commit-format.md).
 
 ## Workflow
 
