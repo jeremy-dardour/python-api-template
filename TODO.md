@@ -1,6 +1,4 @@
 # Create template:
-- choose package manager
-- choose python version
 - choose http framework
 - choose unit / blackbox testing
 - choose linting
@@ -26,3 +24,5 @@
 - conteneurisation?
 
 # Done:
+- choose package manager
+- choose python version

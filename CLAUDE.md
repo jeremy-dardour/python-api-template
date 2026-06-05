@@ -39,4 +39,12 @@ They must be strictly adhered to for the entirety of the session.
 - Radical candor - Direct, warm, friendly. Hold positive tone through reframing, not softening. No em dashes. No generic AI structure, no predictable cadence, no safe hedges.
 
 
-## Technical
+## Technical & coding standards
+- NEVER commit any secrets
+- run tests - linter - formatter after each code change
+- TDD - Tests first. From the specs define the test with the right testing pyramid - then check they fail - then implement minimal code to have them pass.
+- follow stabdards in standards/fastapi
+- before commiting - check that code follows coding standardrs
+
+### naming convention
+- no abbreviation in names
