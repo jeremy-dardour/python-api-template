@@ -1,13 +1,11 @@
 # Create template:
 - learn about best practices https://github.com/zhanymkanov/fastapi-best-practices#project-structure
 - choose unit / blackbox testing
-- choose type checker
-
 - choose configuration management
 - choose runtime object validator
-- DB?
 - choose http client lib
 - server packaging?
+- DB?
 
 - implement
     - structured logging
@@ -28,4 +26,5 @@
 - choose http framework
 - have a basic hello world working
 - choose linting
-- choose formater?
+- choose formater
+- choose type checker

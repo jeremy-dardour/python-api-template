@@ -5,5 +5,9 @@
         "source.fixAll.ruff": "always"
     },
 
-    "ruff.enable": true
+    "ruff.enable": true,
+    "files.exclude": {
+        "**/.git": false,
+
+    }
 }
