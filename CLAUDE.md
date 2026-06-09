@@ -46,11 +46,14 @@ They must be strictly adhered to for the entirety of the session.
 - follow stabdards in standards/fastapi
 - before commiting - check that code follows coding standardrs
 
-### Pre-commit requirement
-Before every commit, without exception:
-1. Run `just check-all`
-2. If any errors are reported, run `just fix-all`
-3. Only commit if `just check-all` passes cleanly with no errors
+### Pre-commit hooks
+
+prek runs automatically on every `git commit`:
+- ruff check with auto-fix on staged files
+- ruff format on staged files
+- basedpyright type-check on the full `src/` tree
+
+The commit is blocked if any check fails. Running `just check-all` manually before committing is therefore redundant -- attempt the commit directly and let the hooks report errors.
 
 ### naming convention
 - no abbreviation in names

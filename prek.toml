@@ -1,0 +1,18 @@
+[[repos]]
+repo = "https://github.com/astral-sh/ruff-pre-commit"
+rev = "v0.15.16"
+
+[[repos.hooks]]
+id = "ruff-check"
+args = ["--fix"]
+
+[[repos.hooks]]
+id = "ruff-format"
+
+[[repos]]
+repo = "https://github.com/DetachHead/basedpyright-pre-commit-mirror"
+rev = "1.39.7"
+
+[[repos.hooks]]
+id = "basedpyright"
+pass_filenames = false
