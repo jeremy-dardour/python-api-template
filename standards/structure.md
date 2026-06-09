@@ -1,18 +1,19 @@
-# Application Structure — app-structure-05.06.2026-layers
-
-Layer-based structure. Re-evaluate toward feature-based if the app grows beyond ~5 domains.
-
+# Application Structure
 ## Layout
 
 ```
-app/
-  routers/
-  services/
-  repositories/
-  schemas/
-  models/
-  core/
+src/
+  app/
+    routers/
+    services/
+    repositories/
+    schemas/
+    models/
+    core/
 ```
+
+See [adrs/005-package_layout.md](../adrs/005-package_layout.md) for the rationale behind `src/`.
+See [adrs/003-application_structure.md](../adrs/003-application_structure.md) for the rationale behind the layer-based structure.
 
 ## Layers
 

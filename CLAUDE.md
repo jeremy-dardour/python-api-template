@@ -8,7 +8,7 @@ Personal template for Python API projects — an opinionated starting point with
 
 ## Status
 
-Under construction. Pending decisions and tasks are tracked in [TODO.md](./TODO.md). Made decisions are recorded in [decisions.md](./decisions.md).
+Under construction. Pending decisions and tasks are tracked in [TODO.md](./TODO.md). Made decisions are recorded as ADRs in [adrs/](./adrs/) (index: [adrs/decisions.md](./adrs/decisions.md)).
 
 ## Philosophy
 On Startup
