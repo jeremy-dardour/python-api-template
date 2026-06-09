@@ -1,9 +1,8 @@
 # Create template:
-- choose http framework
+- learn about best practices https://github.com/zhanymkanov/fastapi-best-practices#project-structure
 - choose unit / blackbox testing
-- choose linting
 - choose type checker
-- choose formater?
+
 - choose configuration management
 - choose runtime object validator
 - DB?
@@ -26,3 +25,7 @@
 # Done:
 - choose package manager
 - choose python version
+- choose http framework
+- have a basic hello world working
+- choose linting
+- choose formater?
