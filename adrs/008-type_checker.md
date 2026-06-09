@@ -1,7 +1,11 @@
-# 2026-06-09 Type Checker: basedpyright
+# 008 — Type Checker: basedpyright
 
 - **Decision**: basedpyright
 - **Date**: 2026-06-09
+
+## Problem
+
+Python is dynamically typed by default. Type errors, wrong function signatures, and missing attributes are caught only at runtime -- often in production. A static type checker shifts these failures to development time with no runtime overhead.
 
 ## Alternatives considered
 

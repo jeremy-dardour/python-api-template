@@ -1,7 +1,11 @@
-# 2026-06-09 Task Runner: just
+# 006 — Task Runner: just
 
 - **Decision**: just (Justfile)
 - **Date**: 2026-06-09
+
+## Problem
+
+Projects accumulate recurring developer commands -- start the server, run tests, lint, format. Without a standard entry point these live in READMEs that go stale or in contributors' heads. New team members have no discoverable way to know what commands exist or how to run them.
 
 ## Alternatives considered
 

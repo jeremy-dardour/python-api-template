@@ -1,7 +1,11 @@
-# 2026-06-05 Application Structure: Layer-based
+# 003 — Application Structure: Layer-based
 
 - **Decision**: Layer-based structure
 - **Date**: 2026-06-05
+
+## Problem
+
+An unstructured project develops coupling quickly -- routes that contain SQL, business logic scattered across files, no clear ownership of where each concern lives. Without an upfront organizing principle the codebase becomes hard to navigate, test, and hand off.
 
 ## Alternatives considered
 

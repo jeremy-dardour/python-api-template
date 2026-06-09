@@ -3,6 +3,10 @@
 - **Decision**: uv
 - **Date**: 2026-06-05
 
+## Problem
+
+Python dependency management is fragmented across multiple tools: pip for packages, virtualenv/venv for isolation, pip-tools for lockfiles, pyenv for Python versions. Each has its own CLI, config, and failure modes.
+
 ## Alternatives considered
 
 - `pip` + `requirements.txt` (+ pip-tools, virtualenv)

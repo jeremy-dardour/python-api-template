@@ -1,7 +1,11 @@
-# 2026-06-09 Package Layout: src/ layout
+# 005 — Package Layout: src/ layout
 
 - **Decision**: src/ layout (`src/app/`)
 - **Date**: 2026-06-09
+
+## Problem
+
+Python adds the current directory to `sys.path` when running pytest or scripts from the project root. This makes `import app` succeed even when the package is not installed, silently masking packaging misconfigurations that only surface in CI or production.
 
 ## Alternatives considered
 

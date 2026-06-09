@@ -1,7 +1,11 @@
-# 2026-06-09 Linter and Formatter: Ruff
+# 007 — Linter and Formatter: Ruff
 
 - **Decision**: Ruff (for both linting and formatting)
 - **Date**: 2026-06-09
+
+## Problem
+
+Python code needs consistent formatting, import ordering, and static analysis to catch common bugs. Traditionally this requires at minimum three tools (Black, isort, Flake8), each with its own config, version pinning, and invocation -- creating coordination overhead and version-conflict surface area.
 
 ## Alternatives considered
 

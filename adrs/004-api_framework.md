@@ -1,7 +1,11 @@
-# 2026-06-05 API Framework: FastAPI
+# 004 — API Framework: FastAPI
 
 - **Decision**: FastAPI
 - **Date**: 2026-06-05
+
+## Problem
+
+A Python REST API needs a framework to handle routing, request parsing, response serialization, and OpenAPI documentation. This choice determines the async model, validation approach, and ecosystem compatibility for the life of the project.
 
 ## Alternatives considered
 
