@@ -10,7 +10,7 @@ lint:
 lint-fix:
     uv run ruff check . --fix
 
-format-check:
+check-format:
     uv run ruff format . --check  --diff
 
 format:
@@ -18,8 +18,12 @@ format:
 
 check-all:
     @just lint
-    @just format-check
+    @just check-format
+    @just check-types
 
 fix-all:
     @just lint-fix
     @just format
+
+check-types:
+    uv run basedpyright

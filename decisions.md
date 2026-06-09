@@ -63,6 +63,38 @@ See [standards/commit-format.md](./standards/commit-format.md) for the full spec
 
 ---
 
+## API Framework
+
+- **Decision**: FastAPI
+- **Date**: 2026-06-05
+
+**Alternatives considered**:
+- Litestar
+- Django + Django Ninja
+- Flask
+- Starlette
+
+**Rationale**:
+- Native async-first design with full ASGI support -- no bolt-on async.
+- OpenAPI generation and request validation via Pydantic are built-in, not assembled from plugins.
+- Largest ecosystem among modern Python async frameworks; third-party library support is broad and stable.
+- Lower adoption risk than newer alternatives for a template intended to stay usable across projects.
+
+**Rejected alternatives**:
+- **Litestar**: Stronger static typing, class-based views, and more explicit DI make it architecturally appealing. Rejected on ecosystem maturity -- the community, tooling, and third-party integration story is meaningfully smaller, which creates friction for a general-purpose template.
+- **Django + Django Ninja**: Well-suited for data-centric apps; the full Django surface area is overhead for a generic API template.
+- **Flask**: Mature but sync-first; assembling async support, validation, and OpenAPI requires maintaining additional infrastructure that FastAPI provides out of the box.
+- **Starlette**: FastAPI is built on Starlette. Using it directly leaves too much infrastructure to assemble for a production-ready starter.
+
+**Consequences**:
+- **FastAPI** as the web framework.
+- **Pydantic v2** for request/response validation, schema definition, and settings management. Pydantic v2 is a hard dependency of FastAPI ≥0.100; its v1→v2 migration was breaking -- treat Pydantic major upgrades carefully.
+- **Uvicorn** as the ASGI server for local development and production.
+- The `Depends()` dependency injection pattern is FastAPI-specific and non-obvious. Testing code that uses `Depends()` requires either FastAPI's `TestClient` or explicit override patterns -- design injection points with testability in mind.
+- DI standards are defined in [standards/fast-api.md](./standards/fast-api.md) under tag `fast-api-05.06.2026-DI`.
+
+---
+
 ## Task Runner
 
 - **Decision**: just (Justfile)
@@ -117,34 +149,36 @@ See [standards/commit-format.md](./standards/commit-format.md) for the full spec
 
 ---
 
-## API Framework
+## Type Checker
 
-- **Decision**: FastAPI
-- **Date**: 2026-06-05
+- **Decision**: basedpyright
+- **Date**: 2026-06-09
 
 **Alternatives considered**:
-- Litestar
-- Django + Django Ninja
-- Flask
-- Starlette
+- mypy (~20.5k ★)
+- pyright (~15.5k ★)
+- basedpyright (~3.4k ★) ← chosen
+- ty, by Astral (~18.8k ★) ← deferred
+
 
 **Rationale**:
-- Native async-first design with full ASGI support -- no bolt-on async.
-- OpenAPI generation and request validation via Pydantic are built-in, not assembled from plugins.
-- Largest ecosystem among modern Python async frameworks; third-party library support is broad and stable.
-- Lower adoption risk than newer alternatives for a template intended to stay usable across projects.
+- FastAPI and Pydantic v2 are designed and tested against pyright's type system — their generics, stubs, and inference patterns are tuned for it. basedpyright inherits this compatibility directly.
+- pip-installable (`uv add --dev basedpyright`) with no Node.js dependency, unlike upstream pyright — cleaner Docker builds and CI pipelines.
+- Stricter defaults than pyright out of the box: catches more issues without manual `strict` flag configuration.
+- Tracks pyright releases closely (last release was 4 days behind pyright 1.1.410), so it is not a stale fork.
+- Configuration lives in `pyproject.toml` under `[tool.basedpyright]`, consistent with the rest of the toolchain.
 
 **Rejected alternatives**:
-- **Litestar**: Stronger static typing, class-based views, and more explicit DI make it architecturally appealing. Rejected on ecosystem maturity -- the community, tooling, and third-party integration story is meaningfully smaller, which creates friction for a general-purpose template.
-- **Django + Django Ninja**: Well-suited for data-centric apps; the full Django surface area is overhead for a generic API template.
-- **Flask**: Mature but sync-first; assembling async support, validation, and OpenAPI requires maintaining additional infrastructure that FastAPI provides out of the box.
-- **Starlette**: FastAPI is built on Starlette. Using it directly leaves too much infrastructure to assemble for a production-ready starter.
+- **mypy** (~20.5k ★): Still the most widely adopted type checker and has the broadest plugin ecosystem, but its Pydantic v2 support lags behind pyright, it is significantly slower, and the "use mypy for SQLAlchemy" argument is largely legacy — SQLAlchemy 2.0 ships with native pyright stubs.
+- **pyright** (~15.5k ★): The upstream tool basedpyright is forked from. Functionally equivalent but requires Node.js as a runtime dependency, which is an unnecessary footgun in a pure Python project. basedpyright is a strict superset in terms of checks.
+- **ty** (~18.8k ★): Written in Rust by Astral (the creators of uv and ruff), 10–100x faster than mypy/pyright, and architecturally aligned with the rest of this toolchain. However, it is currently versioned at `0.0.x` and explicitly does not guarantee stability between releases — breaking diagnostic changes can occur on any update. Type system coverage also has known gaps tracked in an open
 
 **Consequences**:
-- **FastAPI** as the web framework.
-- **Pydantic v2** for request/response validation, schema definition, and settings management. Pydantic v2 is a hard dependency of FastAPI ≥0.100; its v1→v2 migration was breaking -- treat Pydantic major upgrades carefully.
-- **Uvicorn** as the ASGI server for local development and production.
-- The `Depends()` dependency injection pattern is FastAPI-specific and non-obvious. Testing code that uses `Depends()` requires either FastAPI's `TestClient` or explicit override patterns -- design injection points with testability in mind.
-- DI standards are defined in [standards/fast-api.md](./standards/fast-api.md) under tag `fast-api-05.06.2026-DI`.
+- `just typecheck` runs `basedpyright` against the source tree.
+- Type checking mode is set to "strict" from project initialization. Exceptions for third-party libraries with incomplete stubs are handled per-package via [tool.basedpyright.overrides] rather than by downgrading the global mode.
+- If a library is added with significantly better mypy support and no pyright stubs (rare, but possible), this decision should be revisited. Switching is low-cost — it's a dev-only tool with no runtime impact.
+- `[tool.basedpyright]` block in `pyproject.toml` configures `pythonVersion`, `pythonPlatform`, and `venvPath`.
+
+---
 
 

@@ -11,6 +11,7 @@ dependencies = [
 
 [dependency-groups]
 dev = [
+    "basedpyright>=1.39.7",
     "ruff>=0.15.16",
 ]
 
@@ -28,25 +29,30 @@ show-fixes = true
 [tool.ruff.lint]
 
 select = [
-  "B",      # flake8-bugbear
-  "C4",     # flake8-comprehensions
-  "E",      # pycodestyle errors
-  "FA",     # flake8-future-annotations
-  "F",      # pyflakes
-  "G",      # flake8-logging-format
-  "I",      # isort
-  "LOG",    # flake8-logging
-  "PL",     # pylint
-  "PYI",    # flake8-pyi
-  "Q",      # flake8-quotes
-  "RUF",    # ruff-specific rules
-  "TCH",    # flake8-type-checking
-  "TID",    # flake8-tidy-imports
-  "UP",     # pyupgrade
-  "W",      # pycodestyle warnings
-  "SIM",    # flake8-simplify
+    "E",     # pycodestyle errors
+    "W",     # pycodestyle warnings
+    "F",     # pyflakes
+    "I",     # isort
+    "B",     # bugbear — common bug patterns
+    "C4",    # comprehension improvements
+    "UP",    # pyupgrade — modernize syntax
+    "ANN",   # enforce annotations
+    "S",     # bandit — security
+    "SIM",   # simplify
+    "TCH",   # type-checking import hygiene
+    "RUF",   # ruff-specific rules
+    "T20",   # no print statements
+    "N",     # pep8 naming
+    "FAST",  # FastAPI-specific rules
+    "ERA",   # no commented-out code
 ]
+ignore = []
+
 
 [tool.ruff.format]
 quote-style = "double"
 indent-style = "space"
+
+[tool.basedpyright]
+typeCheckingMode = "all"
+pythonVersion = "3.13"
