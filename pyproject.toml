@@ -34,7 +34,7 @@ target-version = "py313"
 line-length = 120
 indent-width = 4
 extend-exclude = [
-    "standards/",
+    "docs/",
 ]
 show-fixes = true
 

@@ -1,4 +1,4 @@
-# Testing Stack — testing-stack-2026-06-13
+# 011 — Testing Stack: pytest + pytest-asyncio + httpx + pytest-mock
 
 - **Decision**: pytest + pytest-asyncio + httpx.AsyncClient + pytest-mock + FastAPI dependency_overrides
 - **Date**: 2026-06-13

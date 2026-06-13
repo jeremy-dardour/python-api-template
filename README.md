@@ -12,6 +12,8 @@ Personal template for Python API projects.
 | [Ruff](https://docs.astral.sh/ruff/) | Linter and formatter | `pyproject.toml` `[tool.ruff]` |
 | [basedpyright](https://docs.basedpyright.com/) | Type checker | `pyproject.toml` `[tool.basedpyright]` |
 | [prek](https://github.com/j178/prek) | Pre-commit hooks (ruff + basedpyright) | `prek.toml` |
+| [pytest](https://docs.pytest.org/) | Test runner (+ `pytest-cov` for coverage) | `pyproject.toml` `[tool.pytest.ini_options]` |
+| [GitHub Actions](https://docs.github.com/actions) | CI (lint, format, types, tests) | `.github/workflows/ci.yml` |
 
 ## Prerequisites
 
@@ -44,3 +46,26 @@ Activate the virtual environment before running project commands:
 ```bash
 source .venv/bin/activate
 ```
+
+## Testing
+
+Tests live in `tests/`, split into two layers (`unit/` and `api/`). The full rationale,
+TDD workflow, and per-layer responsibilities are documented in
+[docs/standards/testing.md](./docs/standards/testing.md).
+
+```bash
+just test           # run the whole suite
+just test-unit      # unit tests only
+just test-api       # API (black box) tests only
+just test-coverage  # whole suite with a term-missing coverage report
+```
+
+Coverage is measured against the `app` package via `pytest-cov`. The recipes treat
+"no tests collected" (pytest exit code 5) as success, so an empty test directory does not
+fail the run.
+
+## CI/CD
+
+Every pull request and every push to `main` runs lint, format, type-check, and tests on
+GitHub Actions. The same `just` recipes run locally and in CI. See
+[docs/ci-cd.md](./docs/ci-cd.md) for the goals, decisions, and cost-control measures.

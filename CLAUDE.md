@@ -8,7 +8,7 @@ Personal template for Python API projects — an opinionated starting point with
 
 ## Status
 
-Under construction. Pending decisions and tasks are tracked in [TODO.md](./TODO.md). Made decisions are recorded as ADRs in [adrs/](./adrs/) (index: [adrs/decisions.md](./adrs/decisions.md)).
+Under construction. Pending decisions and tasks are tracked in [TODO.md](./TODO.md). Made decisions are recorded as ADRs in [docs/adrs/](./docs/adrs/) (index: [docs/adrs/decisions.md](./docs/adrs/decisions.md)).
 
 ## Philosophy
 On Startup
@@ -42,8 +42,8 @@ They must be strictly adhered to for the entirety of the session.
 ## Technical & coding standards
 - NEVER commit any secrets
 - run tests - linter - formatter after each code change
-- TDD - Tests first. From the specs define the test with the right testing pyramid - then check they fail - then implement minimal code to have them pass - use  [standards/testing](./standards/testing.md) for testing practices
-- follow standards in standards/fastapi
+- TDD - Tests first. From the specs define the test with the right testing pyramid - then check they fail - then implement minimal code to have them pass - use  [docs/standards/testing](./docs/standards/testing.md) for testing practices
+- follow standards in docs/standards/fast-api
 - before commiting - check that code follows coding standards
 
 ### Pre-commit hooks
