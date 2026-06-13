@@ -12,3 +12,4 @@ Architectural and tooling decisions are recorded as individual ADRs in [`adrs/`]
 | [006](adrs/006-task_runner.md) | 2026-06-09 | Task Runner | just |
 | [007](adrs/007-linter_formatter.md) | 2026-06-09 | Linter and Formatter | Ruff |
 | [008](adrs/008-type_checker.md) | 2026-06-09 | Type Checker | basedpyright |
+| [009](adrs/009-pre_commit_hooks.md) | 2026-06-09 | Pre-commit Hooks | prek |
