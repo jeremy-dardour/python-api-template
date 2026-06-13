@@ -40,7 +40,16 @@ jobs:
   test:
     runs-on: ubuntu-latest
     timeout-minutes: 3
+    permissions:
+      contents: read
+      pull-requests: write
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup
       - run: just test-coverage
+      - name: Coverage PR comment
+        if: ${{ !cancelled() && github.event_name == 'pull_request' }}
+        uses: py-cov-action/python-coverage-comment-action@v3
+        with:
+          GITHUB_TOKEN: ${{ github.token }}
+          MINIMUM_GREEN: 90

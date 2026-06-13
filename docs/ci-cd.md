@@ -24,7 +24,7 @@ each calling one `just` recipe:
 | `lint`   | `just lint`         | `ruff check .`                                      |
 | `format` | `just check-format` | `ruff format . --check --diff`                      |
 | `types`  | `just check-types`  | `basedpyright`                                      |
-| `test`   | `just test-coverage`| `pytest --cov=app --cov-report=term-missing`        |
+| `test`   | `just test-coverage`| `pytest --cov=app --cov-report=term-missing --cov-fail-under=90` |
 
 ## Triggers
 
@@ -61,6 +61,16 @@ caching), installs `just`, and runs `uv sync --locked`. Each job is then `checko
 recipe`. `--locked` installs exactly what `uv.lock` pins and fails if the lockfile is stale,
 keeping CI reproducible.
 
+### Coverage gate at 90% with a PR comment
+
+`just test-coverage` runs `--cov-fail-under=90`, so the `test` job fails when coverage drops
+below 90%. On pull requests the job then posts the coverage report as a comment via
+[`py-cov-action/python-coverage-comment-action`](https://github.com/py-cov-action/python-coverage-comment-action).
+The comment step is gated on `!cancelled()` so the number is posted even when the threshold
+fails, giving the reviewer the figure alongside the red check. This requires
+`pull-requests: write` on the `test` job only (the other jobs keep `contents: read`), and
+`relative_files = true` under `[tool.coverage.run]` so the action resolves source paths.
+
 ## Cost control
 
 CI minutes are billed, so the workflow is built to spend as few as possible:
@@ -74,12 +84,11 @@ CI minutes are billed, so the workflow is built to spend as few as possible:
 - **Scoped push trigger.** `push` is limited to `main`, so feature-branch pushes do not trigger
   duplicate runs alongside their PR.
 - **Cheapest runner tier.** `ubuntu-latest` (1x billing multiplier).
-- **Least privilege.** `permissions: contents: read` — the workflow only needs to read the repo.
+- **Least privilege.** Workflow default is `permissions: contents: read`; only the `test` job
+  widens to `pull-requests: write`, and only to post the coverage comment.
 
 ## Not included (yet)
 
-- **Coverage gate.** `just test-coverage` reports coverage but does not fail under a threshold.
-  Adding `--cov-fail-under=N` to the recipe turns the report into a gate.
 - **Branch protection.** Requiring these checks before merge is a GitHub repository setting, not
   a file in this repo. Configure it under Settings → Branches → Branch protection rules.
 - **Coverage upload / Codecov, deployment (CD).** Out of scope for the template's minimum CI.

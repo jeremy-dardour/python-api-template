@@ -49,4 +49,4 @@ test-api:
 
 test-coverage:
     #!/usr/bin/env bash
-    uv run pytest tests/ --cov=app --cov-report=term-missing; ret=$?; [[ $ret -eq 0 || $ret -eq 5 ]]
+    uv run pytest tests/ --cov=app --cov-report=term-missing --cov-fail-under=90; ret=$?; [[ $ret -eq 0 || $ret -eq 5 ]]

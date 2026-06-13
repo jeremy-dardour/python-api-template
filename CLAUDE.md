@@ -45,6 +45,7 @@ They must be strictly adhered to for the entirety of the session.
 - TDD - Tests first. From the specs define the test with the right testing pyramid - then check they fail - then implement minimal code to have them pass - use  [docs/standards/testing](./docs/standards/testing.md) for testing practices
 - follow standards in docs/standards/fast-api
 - before commiting - check that code follows coding standards
+- when changing CI (`.github/workflows/`, `.github/actions/`), update [docs/ci-cd.md](./docs/ci-cd.md) in the same change
 
 ### Pre-commit hooks
 

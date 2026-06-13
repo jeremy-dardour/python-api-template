@@ -79,3 +79,8 @@ include = ["src"]
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
 testpaths = ["tests"]
+
+
+[tool.coverage.run]
+# Required by the CI coverage-comment action to resolve file paths.
+relative_files = true
