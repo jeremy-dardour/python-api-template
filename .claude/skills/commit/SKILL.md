@@ -31,3 +31,7 @@ EOF
 - Never amend a published commit.
 - Never commit `.env` or credential files -- warn the user if asked.
 - If a pre-commit hook fails, fix the issue and create a new commit; do not amend.
+
+## Permissions
+
+`git status` and `git diff` are read-only and must run without asking for user permission.
