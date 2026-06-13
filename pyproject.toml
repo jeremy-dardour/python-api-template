@@ -61,6 +61,9 @@ select = [
 ]
 ignore = []
 
+[tool.ruff.lint.per-file-ignores]
+"tests/**/*.py" = ["S101"]
+
 
 [tool.ruff.format]
 quote-style = "double"

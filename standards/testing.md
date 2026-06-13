@@ -5,13 +5,11 @@
 ```
 tests/
   conftest.py          # shared fixtures (client, db session, factories)
-  unit/
-    services/          # complex business logic only — not thin delegation methods
+  unit/                 # mimicks the application folder structure
+    services/
   api/
-    routers/           # black box tests per endpoint
+    test_{router_name}_router.py           # black box tests per endpoint
 ```
-
----
 
 ---
 
