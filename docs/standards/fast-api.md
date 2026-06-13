@@ -2,47 +2,51 @@
 
 ## Dependency Injection — fast-api-05.06.2026-DI
 
+See [ADR 013](../adrs/013-dependency_injection.md) for the decision.
+
 ### Rule
 
-`Depends()` resolves infrastructure at the route boundary. Everything below is plain Python.
+One provider function per layer lives in the feature's `dependencies.py`. Each provider receives the layer below via `Depends()` and returns a built object. Domain classes (services, repositories) take plain arguments and never carry `Depends` in their signatures.
 
 ### Layering
 
 ```
-Route
-  └── Depends(get_db)               # infrastructure: db session, current user, config
-  └── calls Service(db)
-        └── calls Repository(db)    # plain constructor injection, no Depends()
+Route          -> Depends(get_todo_service)
+  get_todo_service(repository: TodoRepositoryDep)   # provider, FastAPI-aware
+    get_todo_repository(csv_path: TodosCsvPathDep)  # provider, FastAPI-aware
+      get_todos_csv_path()                          # infrastructure (db session, config, ...)
 ```
 
-Services and repositories are instantiated in the route handler (or via a plain factory function) and receive already-resolved resources as constructor arguments. They have no knowledge of FastAPI.
+`TodoService` and `TodoRepository` themselves take plain arguments (a repository, a `Path`) and have no knowledge of FastAPI.
 
 ### Pattern
 
 ```python
-@router.get("/users/{user_id}")
-async def get_user(user_id: int, db: AsyncSession = Depends(get_db)):
-    repository = UserRepository(db)
-    service = UserService(repository)
-    return await service.get(user_id)
+# dependencies.py — the only FastAPI-aware module in the feature
+def get_todos_csv_path() -> Path:
+    return _TODOS_CSV_PATH
+TodosCsvPathDep = Annotated[Path, Depends(get_todos_csv_path)]
+
+def get_todo_repository(csv_path: TodosCsvPathDep) -> TodoRepository:
+    return TodoRepository(csv_path)
+TodoRepositoryDep = Annotated[TodoRepository, Depends(get_todo_repository)]
+
+def get_todo_service(repository: TodoRepositoryDep) -> TodoService:
+    return TodoService(repository)
+TodoServiceDep = Annotated[TodoService, Depends(get_todo_service)]
+
+# router.py — no construction
+@router.get("")
+async def get_todos(service: TodoServiceDep) -> list[TodoRead]:
+    return await service.get_all()
 ```
 
-### What belongs in `Depends()`
+### Rules
 
-- DB session
-- Current authenticated user
-- Config / settings
-- Request-scoped infrastructure (feature flags, tenant context)
-
-### What does not belong in `Depends()`
-
-- Repositories
-- Services
-- Any domain logic
-
-### Why
-
-Pulling repositories and services into `Depends()` chains couples domain code to FastAPI. Testing then requires either manually calling the dependency chain or using `app.dependency_overrides` -- a global mutation on the app object that leaks between tests if not cleaned up. Plain constructor injection keeps domain code testable as regular Python.
+- Provider functions and their `Depends` aliases live in `dependencies.py`, one per layer.
+- Service and repository classes take plain arguments; no `Depends` in their constructors.
+- Infrastructure (db session, current user, config, request-scoped context) sits at the bottom of the chain and is the override seam for tests.
+- Primary data stores are seeded with real state in black-box API tests, not overridden. Reserve `app.dependency_overrides` for external services and unit-level handler tests, always cleared via a fixture.
 
 ### Singletons
 

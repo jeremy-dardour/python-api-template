@@ -72,7 +72,7 @@ Must not contain: Pydantic schemas, business logic, HTTP concerns.
 
 ### `dependencies.py`
 
-FastAPI `Depends()` wiring scoped to this feature.
+FastAPI `Depends()` wiring scoped to this feature. One provider function per layer, each depending on the layer below, plus its `Annotated[..., Depends(...)]` alias. The only FastAPI-aware module in the feature. See [adrs/013-dependency_injection.md](../adrs/013-dependency_injection.md).
 
 Must not contain: business logic, cross-feature dependencies.
 

@@ -16,3 +16,4 @@ Architectural and tooling decisions are recorded as individual ADRs in [`adrs/`]
 | [010](010-application_structure_feature_based.md) | 2026-06-13 | Application Structure | Feature-based (vertical slices), supersedes 003 |
 | [011](011-testing_framework.md) | 2026-06-13 | Testing Stack | pytest + pytest-asyncio + httpx + pytest-mock |
 | [012](012-continuous_integration.md) | 2026-06-13 | Continuous Integration | GitHub Actions (lint, format, types, tests) |
+| [013](013-dependency_injection.md) | 2026-06-13 | Dependency Injection | Provider-function chain in `dependencies.py`; domain classes stay FastAPI-free |
