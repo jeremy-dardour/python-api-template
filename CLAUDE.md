@@ -42,9 +42,9 @@ They must be strictly adhered to for the entirety of the session.
 ## Technical & coding standards
 - NEVER commit any secrets
 - run tests - linter - formatter after each code change
-- TDD - Tests first. From the specs define the test with the right testing pyramid - then check they fail - then implement minimal code to have them pass.
-- follow stabdards in standards/fastapi
-- before commiting - check that code follows coding standardrs
+- TDD - Tests first. From the specs define the test with the right testing pyramid - then check they fail - then implement minimal code to have them pass - use  [standards/testing](./standards/testing.md) for testing practices
+- follow standards in standards/fastapi
+- before commiting - check that code follows coding standards
 
 ### Pre-commit hooks
 
