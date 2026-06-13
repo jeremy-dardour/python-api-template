@@ -6,6 +6,6 @@ router = APIRouter(
 )
 
 
-@router.get("/")
+@router.get("")
 async def hello_world() -> str:
     return "hello hello!"
