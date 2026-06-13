@@ -1,7 +1,7 @@
 from httpx import AsyncClient
 from pydantic import TypeAdapter
 
-from app.schemas.todos import TodoRead
+from app.todos.schemas import TodoRead
 
 
 class TestGetTodosList:

@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 
-from app.routers.hello_world import router as hello_world_router
-from app.routers.todos import router as todos_router
+from app.hello_world.router import router as hello_world_router
+from app.todos.router import router as todos_router
 
 app = FastAPI()
 

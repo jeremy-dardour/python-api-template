@@ -1,7 +1,7 @@
 from typing import ClassVar
 from uuid import UUID
 
-from app.models.todos import Todo, TodoStatus
+from app.todos.models import Todo, TodoStatus
 
 
 class TodoRepository:

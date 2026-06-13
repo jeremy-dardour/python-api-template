@@ -1,6 +1,6 @@
-from app.models.todos import Todo
-from app.repositories.todos import TodoRepository
-from app.schemas.todos import TodoRead
+from app.todos.models import Todo
+from app.todos.repository import TodoRepository
+from app.todos.schemas import TodoRead
 
 
 class TodoService:

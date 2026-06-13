@@ -1,9 +1,8 @@
-# src/app/schemas/todo.py
 from uuid import UUID
 
 from pydantic import BaseModel
 
-from app.models.todos import TodoStatus
+from app.todos.models import TodoStatus
 
 
 class TodoBase(BaseModel):

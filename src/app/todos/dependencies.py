@@ -2,8 +2,8 @@ from typing import Annotated
 
 from fastapi import Depends
 
-from app.repositories.todos import TodoRepository
-from app.services.todos import TodoService
+from app.todos.repository import TodoRepository
+from app.todos.service import TodoService
 
 
 def get_todo_service() -> TodoService:

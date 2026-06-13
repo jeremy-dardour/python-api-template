@@ -13,3 +13,4 @@ Architectural and tooling decisions are recorded as individual ADRs in [`adrs/`]
 | [007](adrs/007-linter_formatter.md) | 2026-06-09 | Linter and Formatter | Ruff |
 | [008](adrs/008-type_checker.md) | 2026-06-09 | Type Checker | basedpyright |
 | [009](adrs/009-pre_commit_hooks.md) | 2026-06-09 | Pre-commit Hooks | prek |
+| [010](adrs/010-application_structure_feature_based.md) | 2026-06-13 | Application Structure | Feature-based (vertical slices), supersedes 003 |

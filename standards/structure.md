@@ -1,35 +1,43 @@
 # Application Structure
+
 ## Layout
 
 ```
 src/
   app/
-    routers/
-    services/
-    repositories/
-    schemas/
-    models/
-    core/
+    {feature}/
+      router.py        # HTTP boundary
+      service.py       # Business logic
+      repository.py    # Data access
+      schemas.py       # Pydantic request/response models
+      models.py        # Domain models
+      dependencies.py  # FastAPI Depends() wiring for this feature
+    core/              # Shared infrastructure only
+    main.py
 ```
 
 See [adrs/005-package_layout.md](../adrs/005-package_layout.md) for the rationale behind `src/`.
-See [adrs/003-application_structure.md](../adrs/003-application_structure.md) for the rationale behind the layer-based structure.
+See [adrs/010-application_structure_feature_based.md](../adrs/010-application_structure_feature_based.md) for the rationale behind the feature-based structure.
 
-## Layers
+## Feature directory
 
-### `routers/`
+Each feature is a self-contained directory. All files for a domain live together.
 
-HTTP boundary. One file per resource (e.g., `users.py`, `orders.py`).
+Not every file is required — a simple feature may only need `router.py`. Add files as the feature grows.
+
+### `router.py`
+
+HTTP boundary. One router per feature.
 
 - Route definitions, path/query parameter parsing
 - Input: Pydantic schemas. Output: Pydantic schemas
-- Calls services -- nothing else
+- Calls services — nothing else
 
 Must not contain: business logic, SQL queries, ORM model construction.
 
-### `services/`
+### `service.py`
 
-Business logic. One file per domain.
+Business logic.
 
 - Orchestrates repositories and enforces domain rules
 - Receives and returns Pydantic schemas or primitives
@@ -37,40 +45,44 @@ Business logic. One file per domain.
 
 Must not contain: SQL queries, HTTP objects, direct ORM access.
 
-### `repositories/`
+### `repository.py`
 
-Data access. One file per resource.
+Data access.
 
 - All database queries live here, nowhere else
-- Returns ORM models or primitives -- not schemas
+- Returns domain models or primitives — not schemas
 - No business rules or validation logic
 
 Must not contain: business logic, HTTP objects, Pydantic schemas.
 
-### `schemas/`
+### `schemas.py`
 
-Pydantic models for API input/output. One file per resource.
+Pydantic models for API input/output.
 
 - Request bodies, response shapes, query parameter models
 - May have `Base`, `Create`, `Update`, `Read` variants per resource
 
 Must not contain: ORM relationships, SQLAlchemy types, business logic.
 
-### `models/`
+### `models.py`
 
-ORM table definitions. One file per resource or group of related tables.
-
-- ORM model classes only -- pure data structure, no business logic
+Domain model classes — pure data structure, no business logic.
 
 Must not contain: Pydantic schemas, business logic, HTTP concerns.
 
-### `core/`
+### `dependencies.py`
+
+FastAPI `Depends()` wiring scoped to this feature.
+
+Must not contain: business logic, cross-feature dependencies.
+
+## `core/`
 
 Shared infrastructure. Not feature-specific.
 
-- `db.py` -- session factory, engine, base model class
-- `config.py` -- settings (via Pydantic `BaseSettings`)
-- `dependencies.py` -- shared FastAPI `Depends()` functions (db session, current user)
-- `lifespan.py` -- app startup/shutdown (connection pools, HTTP clients)
+- `db.py` — session factory, engine, base model class
+- `config.py` — settings (via Pydantic `BaseSettings`)
+- `dependencies.py` — shared `Depends()` functions (db session, current user)
+- `lifespan.py` — app startup/shutdown (connection pools, HTTP clients)
 
 Must not contain: feature-specific code, business logic, route definitions.

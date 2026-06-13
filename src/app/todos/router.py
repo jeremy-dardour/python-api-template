@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 
-from app.core.dependencies.todos import TodoServiceDep
-from app.schemas.todos import TodoRead
+from app.todos.dependencies import TodoServiceDep
+from app.todos.schemas import TodoRead
 
 router = APIRouter(
     prefix="/todos",
