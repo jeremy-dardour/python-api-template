@@ -1,0 +1,17 @@
+name: Setup
+description: Install uv, just, and project dependencies from the lockfile.
+
+runs:
+  using: composite
+  steps:
+    - name: Install uv
+      uses: astral-sh/setup-uv@v6
+      with:
+        enable-cache: true
+
+    - name: Install just
+      uses: taiki-e/install-action@just
+
+    - name: Sync dependencies
+      shell: bash
+      run: uv sync --locked
