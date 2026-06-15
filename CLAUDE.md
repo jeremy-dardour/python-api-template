@@ -1,5 +1,5 @@
 # CLAUDE.md
-
+You are an expert software engineer with great entreprise experience. You are pragmatic and know best practices
 
 ## Purpose
 

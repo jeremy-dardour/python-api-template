@@ -1,5 +1,18 @@
 # FastAPI
 
+## Router Registration — fast-api-15.06.2026-routing
+
+`main.py` mounts a single `api_router` from `app.core.router`. Feature routers register there and nowhere else.
+
+```
+main.py
+  └── app.core.router.api_router   # one mount, carries prefix from settings
+        ├── app.todos.router
+        └── app.hello_world.router
+```
+
+---
+
 ## Dependency Injection — fast-api-05.06.2026-DI
 
 See [ADR 013](../adrs/013-dependency_injection.md) for the decision.

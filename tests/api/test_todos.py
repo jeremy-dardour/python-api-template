@@ -6,7 +6,7 @@ from app.todos.schemas import TodoRead
 
 class TestGetTodosList:
     async def test_get_todos_list(self, client: AsyncClient) -> None:
-        response = await client.get("/todos")
+        response = await client.get("/api/v1/todos")
 
         assert response.status_code == 200
         todos = TypeAdapter(list[TodoRead]).validate_python(response.json())

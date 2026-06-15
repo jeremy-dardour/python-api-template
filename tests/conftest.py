@@ -1,8 +1,9 @@
-from collections.abc import AsyncGenerator
+from collections.abc import AsyncGenerator, Generator
 
 import pytest
 from httpx import ASGITransport, AsyncClient
 
+from app.core.config import Settings, get_settings
 from app.main import app
 
 # ---------------------------------------------------------------------------
@@ -20,24 +21,30 @@ async def client() -> AsyncGenerator[AsyncClient]:
 
 
 # ---------------------------------------------------------------------------
-# Dependency overrides
+# Settings override
 # ---------------------------------------------------------------------------
-# Pattern: define one fixture per dependency you need to override.
-# Always clear overrides after the test to avoid state leaking between tests.
-#
-# Example — override the database session:
-#
-# @pytest.fixture
-# def override_db(fake_db: FakeDB) -> Generator[None, None, None]:
-#     app.dependency_overrides[get_db] = lambda: fake_db  # noqa: ERA001
-#     yield
-#     app.dependency_overrides.clear() # noqa: ERA001
-#
-# Use in a test by adding the fixture as a parameter:
-#
-# async def test_something(client: AsyncClient, override_db: None) -> None:
-#     ...
+# Swaps get_settings in dependency_overrides, so it only reaches routes that read
+# settings at REQUEST time via SettingsDep. It cannot change values consumed at app
+# construction (docs_url, redoc_url, openapi_url) — those are fixed on the FastAPI
+# instance at import and need a freshly built app to vary.
 # ---------------------------------------------------------------------------
+
+
+@pytest.fixture
+def override_settings(request: pytest.FixtureRequest) -> Generator[Settings]:
+    """Inject custom Settings into routes that depend on SettingsDep.
+
+    Two ways to use it:
+        1. Defaults: request the fixture as-is and a default Settings() is injected.
+               def test_x(client, override_settings): ...
+        2. Custom values: parametrize indirectly with the values to override.
+               @pytest.mark.parametrize("override_settings", [{"environment": "production"}], indirect=True)
+               def test_x(client, override_settings): ...
+    """
+    test_settings = Settings.model_validate(getattr(request, "param", {}))
+    app.dependency_overrides[get_settings] = lambda: test_settings
+    yield test_settings
+    del app.dependency_overrides[get_settings]
 
 
 # ---------------------------------------------------------------------------

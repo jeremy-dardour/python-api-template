@@ -1,9 +1,17 @@
 from fastapi import FastAPI
 
-from app.hello_world.router import router as hello_world_router
-from app.todos.router import router as todos_router
+from app.core.config import get_settings
+from app.core.router import api_router
 
-app = FastAPI()
+settings = get_settings()
 
-app.include_router(hello_world_router)
-app.include_router(todos_router)
+app = FastAPI(
+    title=settings.app_name,
+    version=settings.app_version,
+    debug=settings.debug,
+    docs_url=settings.docs_url,
+    redoc_url=settings.redoc_url,
+    openapi_url=settings.openapi_url,
+)
+
+app.include_router(api_router, prefix=settings.api_prefix)
