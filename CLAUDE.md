@@ -1,17 +1,25 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
 ## Purpose
 
-Personal template for Python API projects — an opinionated starting point with tooling choices made and implemented.
+A production ready for entreprise grade project Python API template — an opinionated starting point with tooling choices made and implemented.
 
-## Status
+## Working memory
+- MEMORY.md is your working memory of the preferences of the user - read it at the begining of the session
+- when you learn something new about my preferences or when I correct you - update MEMORY.md
 
-Under construction. Pending decisions and tasks are tracked in [TODO.md](./TODO.md). Made decisions are recorded as ADRs in [docs/adrs/](./docs/adrs/) (index: [docs/adrs/decisions.md](./docs/adrs/decisions.md)).
+## Scratchpad
+scratchpad.md is the working doc of your reasoning and decisions within a session maintain scratchpad.md as a running log of your reasoning and progress this allows the user to understand and challenge reasoning directly instead of guessing
+
+
+## Documents to maintain
+
+- Pending decisions and tasks are tracked in [TODO.md](./TODO.md). Made decisions are recorded as ADRs in [docs/adrs/](./docs/adrs/) (index: [docs/adrs/decisions.md](./docs/adrs/decisions.md)).
+
+
 
 ## Philosophy
-On Startup
 
 They must be strictly adhered to for the entirety of the session.
 
@@ -44,17 +52,11 @@ They must be strictly adhered to for the entirety of the session.
 - run tests - linter - formatter after each code change
 - TDD - Tests first. From the specs define the test with the right testing pyramid - then check they fail - then implement minimal code to have them pass - use  [docs/standards/testing](./docs/standards/testing.md) for testing practices
 - follow standards in docs/standards/fast-api
-- before commiting - check that code follows coding standards
-- when changing CI (`.github/workflows/`, `.github/actions/`), update [docs/ci-cd.md](./docs/ci-cd.md) in the same change
 
 ### Pre-commit hooks
 
-prek runs automatically on every `git commit`:
-- ruff check with auto-fix on staged files
-- ruff format on staged files
-- basedpyright type-check on the full `src/` tree
-
-The commit is blocked if any check fails. Running `just check-all` manually before committing is therefore redundant -- attempt the commit directly and let the hooks report errors.
+prek runs automatically on every `git commit`: for formating - linting and type check
+Running `just check-all` manually before committing is therefore redundant
 
 ### naming convention
 - no abbreviation in names
