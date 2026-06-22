@@ -2,6 +2,30 @@
 
 Personal template for Python API projects.
 
+## What's included
+
+- FastAPI app with a feature-based structure
+- Configuration via `pydantic-settings`
+- Health and readiness endpoints (`/health`, `/ready`)
+- Structured JSON logging with request correlation (`request_id`) and service metadata
+- RFC 9457 error responses with global exception handling
+- CORS (default-closed) and browser security headers (HSTS in production)
+- Production `Dockerfile` (slim, non-root)
+- CI on GitHub Actions and Dependabot update checks
+- Opinionated tooling: uv, Ruff, basedpyright, prek, pytest
+- Decisions recorded as ADRs in [docs/adrs/](./docs/adrs/)
+
+## Not included (yet)
+
+Deliberately left to the adopter, tracked in [TODO.md](./TODO.md):
+
+- Database, ORM, and migrations
+- Authentication and authorization
+- Rate limiting
+- Observability (tracing and metrics, e.g. OpenTelemetry)
+- A chosen HTTP client library
+- Secret management strategy
+
 ## Tools
 
 | Tool | Role | Config |
