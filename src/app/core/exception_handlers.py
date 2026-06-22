@@ -22,7 +22,7 @@ def _problem_response(problem: ProblemDetail) -> JSONResponse:
     )
 
 
-async def _handle_domain_error(request: Request, exc: DomainError) -> JSONResponse:
+def _handle_domain_error(request: Request, exc: DomainError) -> JSONResponse:
     return _problem_response(
         ProblemDetail(
             title=exc.title,
@@ -33,7 +33,7 @@ async def _handle_domain_error(request: Request, exc: DomainError) -> JSONRespon
     )
 
 
-async def _handle_validation_error(request: Request, exc: RequestValidationError) -> JSONResponse:
+def _handle_validation_error(request: Request, exc: RequestValidationError) -> JSONResponse:
     raw_errors = cast("list[dict[str, object]]", exc.errors())
     field_errors = [_to_field_error(error) for error in raw_errors]
     return _problem_response(
@@ -47,7 +47,7 @@ async def _handle_validation_error(request: Request, exc: RequestValidationError
     )
 
 
-async def _handle_http_exception(request: Request, exc: HTTPException) -> JSONResponse:
+def _handle_http_exception(request: Request, exc: HTTPException) -> JSONResponse:
     title = HTTPStatus(exc.status_code).phrase
     response = _problem_response(
         ProblemDetail(
@@ -62,7 +62,7 @@ async def _handle_http_exception(request: Request, exc: HTTPException) -> JSONRe
     return response
 
 
-async def _handle_unhandled_error(request: Request, _exc: Exception) -> JSONResponse:
+def _handle_unhandled_error(request: Request, _exc: Exception) -> JSONResponse:
     logger.exception("Unhandled error on %s %s", request.method, request.url.path)
     return _problem_response(
         ProblemDetail(
