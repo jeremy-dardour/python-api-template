@@ -41,7 +41,7 @@ Empty `scratchpad.md` (write an empty file).
 Stage `MEMORY.md`, `scratchpad.md`, and any config files changed during the session (`.claude/settings.json`, `.gitignore`, `CLAUDE.md`, `TODO.md`). Commit as:
 
 ```
-chore(session): update memory and clear scratchpad
+chore(kaizen): {main thing that was learned}
 ```
 
 ## 6. Summary

@@ -11,8 +11,24 @@ A production ready for entreprise grade project Python API template — an opini
 - When you learn something new about the user's preferences or when corrected, update MEMORY.md directly.
 
 ## Scratchpad
-scratchpad.md is the working doc of your reasoning and decisions within a session maintain scratchpad.md as a running log of your reasoning and progress this allows the user to understand and challenge reasoning directly instead of guessing - YOU MUST WRITE TO IT ALL THE CONTENT OF YOUR REFLEXION AT EVERY TURN.
-This file will be reset after the end of a specific feature
+scratchpad.md is the working doc of your reasoning and decisions within a session. YOU MUST WRITE TO IT AT EVERY TURN. Use this structure:
+
+```markdown
+## Decisions
+<!-- Append each decision as it's made. Format: what was decided and why. -->
+
+## Feedback
+<!-- User corrections, preferences, or pushback discovered during this session. -->
+
+## Open questions
+<!-- Unresolved items. Remove when resolved (move to Decisions). -->
+```
+
+- Decisions: record the what and why for each design/implementation choice made during the session. These feed into ADRs or standards docs at session close.
+- Feedback: user corrections or preferences not yet in MEMORY.md. These get extracted to MEMORY.md at session close.
+- Open questions: things still unresolved. Clear when answered.
+
+The /close-session skill reads this file to extract what belongs in MEMORY.md. Keep entries concise -- one line per item. This file is cleared at session close.
 
 
 ## Documents to maintain
@@ -62,6 +78,7 @@ Running `just check-all` manually before committing is therefore redundant
 
 ### Code style
 - When overriding class attributes in subclasses, repeat the type annotation (basedpyright requires it for non-`@final` classes)
+- Only use `async def` when the function body contains `await`. Sync functions must use plain `def`, even in async frameworks like FastAPI
 
 ### naming convention
 - no abbreviation in names
