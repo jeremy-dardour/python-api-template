@@ -78,3 +78,5 @@ async def lifespan(application: FastAPI):
 ### Yield dependencies
 
 Use only for resource lifecycle -- open, yield, close. No logic, no branching. Handle cleanup failures explicitly; they are swallowed silently by default.
+
+---

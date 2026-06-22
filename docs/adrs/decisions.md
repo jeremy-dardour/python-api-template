@@ -17,3 +17,5 @@ Architectural and tooling decisions are recorded as individual ADRs in [`adrs/`]
 | [011](011-testing_framework.md) | 2026-06-13 | Testing Stack | pytest + pytest-asyncio + httpx + pytest-mock |
 | [012](012-continuous_integration.md) | 2026-06-13 | Continuous Integration | GitHub Actions (lint, format, types, tests) |
 | [013](013-dependency_injection.md) | 2026-06-13 | Dependency Injection | Provider-function chain in `dependencies.py`; domain classes stay FastAPI-free |
+| [014](014-app_configuration.md) | 2026-06-13 | App Configuration | pydantic-settings with BaseSettings |
+| [015](015-response_structure.md) | 2026-06-16 | Response Structure | RFC 9457 errors, bare domain models for success, metadata in headers |
