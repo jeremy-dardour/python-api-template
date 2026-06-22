@@ -19,7 +19,6 @@ class Settings(BaseSettings):
     environment: str = Field(default="development")  # development | staging | production
     debug: bool = False
     api_prefix: str = "/api/v1"
-    log_level: str = "INFO"  # DEBUG | INFO | WARNING | ERROR | CRITICAL
 
     # CORS
     cors_origins: list[str] = []

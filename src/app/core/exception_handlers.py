@@ -1,7 +1,7 @@
+import logging
 from http import HTTPStatus
 from typing import cast
 
-import structlog
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.exceptions import RequestValidationError
 from starlette.responses import JSONResponse
@@ -9,7 +9,7 @@ from starlette.responses import JSONResponse
 from app.core.errors import DomainError
 from app.core.problem_detail import FieldError, ProblemDetail, ValidationProblemDetail
 
-logger = structlog.stdlib.get_logger()
+logger = logging.getLogger(__name__)
 
 PROBLEM_JSON = "application/problem+json"
 
@@ -77,7 +77,7 @@ def _handle_validation_error(request: Request, exc: RequestValidationError) -> J
 
 def _handle_unhandled_error(request: Request, _exc: Exception) -> JSONResponse:
     """Catch-all that logs the traceback and returns a generic 500 with no internals leaked."""
-    logger.exception("unhandled_error", method=request.method, path=request.url.path)
+    logger.exception("Unhandled error on %s %s", request.method, request.url.path)
     return _problem_response(
         ProblemDetail(
             title="Internal Server Error",
