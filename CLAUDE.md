@@ -79,6 +79,8 @@ Running `just check-all` manually before committing is therefore redundant
 ### Code style
 - When overriding class attributes in subclasses, repeat the type annotation (basedpyright requires it for non-`@final` classes)
 - Only use `async def` when the function body contains `await`. Sync functions must use plain `def`, even in async frameworks like FastAPI
+- Define private helpers before the functions that use them. Public API goes last
+- One-line docstrings on public functions and methods. Private functions only get a docstring when the purpose isn't obvious from the name
 
 ### naming convention
 - no abbreviation in names
