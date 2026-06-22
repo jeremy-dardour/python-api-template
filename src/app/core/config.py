@@ -20,6 +20,9 @@ class Settings(BaseSettings):
     debug: bool = False
     api_prefix: str = "/api/v1"
 
+    # CORS
+    cors_origins: list[str] = []
+
     # Interactive docs are exposed everywhere except production. Derived per-instance
     # from `environment` so the value tracks the resolved setting, not a class-body
     # snapshot taken once at import time.
