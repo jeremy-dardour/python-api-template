@@ -3,6 +3,7 @@ from fastapi import FastAPI
 from app.core.config import get_settings
 from app.core.exception_handlers import register_exception_handlers
 from app.core.router import api_router
+from app.health.router import router as health_router
 
 settings = get_settings()
 
@@ -16,4 +17,5 @@ app = FastAPI(
 )
 
 register_exception_handlers(app)
+app.include_router(health_router)
 app.include_router(api_router, prefix=settings.api_prefix)
