@@ -13,11 +13,6 @@ A production ready for entreprise grade project Python API template — an opini
 scratchpad.md is the working doc of your reasoning and decisions within a session. YOU MUST WRITE TO IT AT EVERY TURN. Use this structure:
 
 ```markdown
-## Session handoff (resume here if the session crashes)
-<!-- Keep current. Goal + branch; Done/committed (with commit hashes); Uncommitted work with the
-     exact next action per item; Still TODO; Verify commands. A fresh session must be able to read
-     only this block and resume without re-deriving state. -->
-
 ## Decisions
 <!-- Append each decision as it's made. Format: what was decided and why. -->
 
@@ -28,7 +23,6 @@ scratchpad.md is the working doc of your reasoning and decisions within a sessio
 <!-- Unresolved items. Remove when resolved (move to Decisions). -->
 ```
 
-- Session handoff: keep a live outline so work survives a crash. Update it whenever the state of play changes (a commit lands, scope shifts, a plan starts). Include the goal and branch, what is done with commit hashes, uncommitted work with the precise next action for each item, what is still TODO, and the verify commands. If a plan is ongoing, name the plan file and the current step.
 - Decisions: record the what and why for each design/implementation choice made during the session. These feed into ADRs or standards docs at session close.
 - Feedback: user corrections or preferences not yet in MEMORY.md. These get extracted to MEMORY.md at session close.
 - Open questions: things still unresolved. Clear when answered.
@@ -99,7 +93,7 @@ Running `just check-all` manually before committing is therefore redundant
 ### Coding practices
 <!-- Populated by the close-session skill. Rules about how code behaves and is structured. -->
 - Don't introduce production code (factories, seams, indirection) whose only purpose is testability. Test logic at its natural altitude
-- For cross-cutting concern tests (error handling, middleware), prefer the real app via a stable endpoint like `/health`. Stand up a standalone FastAPI app with fake routes only when you need a construction the real app cannot give (e.g. `environment="production"`) or a route it does not expose (e.g. one that raises an unhandled exception)
+- Tests for cross-cutting concerns (error handling, middleware) should use standalone FastAPI apps with fake routes, not depend on feature endpoints
 - Use `feat` for tooling/config additions (ruff, just, linters) in this template. The template is the product; adding tooling is a feature. Use `chore` only for non-product changes like CI fixes or dependency bumps
 
 ### User preferences
