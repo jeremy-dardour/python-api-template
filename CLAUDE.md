@@ -60,5 +60,8 @@ They must be strictly adhered to for the entirety of the session.
 prek runs automatically on every `git commit`: for formating - linting and type check
 Running `just check-all` manually before committing is therefore redundant
 
+### Code style
+- When overriding class attributes in subclasses, repeat the type annotation (basedpyright requires it for non-`@final` classes)
+
 ### naming convention
 - no abbreviation in names
