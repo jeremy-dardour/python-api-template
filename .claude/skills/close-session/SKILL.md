@@ -1,6 +1,6 @@
 ---
 name: close-session
-description: End-of-session cleanup that commits pending work, extracts learnings to MEMORY.md, and clears the scratchpad. Use when the user says "close session", "wrap up", "end session", or invokes /close-session.
+description: End-of-session cleanup that commits pending work, extracts learnings to CLAUDE.md Memory sections, and clears the scratchpad. Use when the user says "close session", "wrap up", "end session", or invokes /close-session.
 ---
 
 # Close Session
@@ -25,12 +25,14 @@ For each group: stage the specific files, draft a commit message following [comm
 
 Read `scratchpad.md`. For each item, classify it:
 
-- **Already captured**: if the item is recorded in an ADR (`docs/adrs/`) or a standards doc (`docs/standards/`), skip it.
-- **Feedback/preference**: interaction preferences, corrections, or confirmed approaches that should persist across sessions. Add to `MEMORY.md` under the Feedback section.
-- **Project context**: ongoing work context, deadlines, stakeholder decisions not captured elsewhere. Add to `MEMORY.md` under a Project section (create if needed).
+- **Already captured**: if the item is recorded in an ADR (`docs/adrs/`), a standards doc (`docs/standards/`), or already in CLAUDE.md, skip it.
+- **Code style**: rules about how code looks (formatting, naming, annotation patterns). Add to CLAUDE.md under `### Code style` in the Memory section.
+- **Coding practices**: rules about how code behaves and is structured (testing approach, commit conventions, architectural patterns). Add to CLAUDE.md under `### Coding practices` in the Memory section.
+- **User preferences**: interaction and workflow preferences (commit style, communication, tooling). Add to CLAUDE.md under `### User preferences` in the Memory section.
+- **Project context**: ongoing work context, deadlines, stakeholder decisions not captured elsewhere. Add to CLAUDE.md under `### Project context` in the Memory section (create the subsection if needed).
 - **Ephemeral**: session-specific reasoning, progress notes, implementation details. Discard.
 
-Present the proposed additions to the user before writing to MEMORY.md.
+Present the proposed additions to the user before writing to CLAUDE.md.
 
 ## 4. Update README
 
@@ -42,7 +44,7 @@ Empty `scratchpad.md` (write an empty file).
 
 ## 6. Final commit
 
-Stage `MEMORY.md`, `scratchpad.md`, `README.md` (if changed), and any config files changed during the session (`.claude/settings.json`, `.gitignore`, `CLAUDE.md`, `TODO.md`). Commit as:
+Stage `scratchpad.md`, `README.md` (if changed), and any config files changed during the session (`.claude/settings.json`, `.gitignore`, `CLAUDE.md`, `TODO.md`). Commit as:
 
 ```
 chore(kaizen): {main thing that was learned}
