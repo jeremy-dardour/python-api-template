@@ -1,0 +1,19 @@
+.venv/
+__pycache__/
+*.pyc
+.git/
+.github/
+.vscode/
+.claude/
+docs/
+tests/
+*.md
+# Keep README.md: hatchling needs it to build the project wheel (pyproject `readme`).
+!README.md
+.env
+.env.*
+!.env.example
+.ruff_cache/
+.pytest_cache/
+.coverage
+scratchpad.md
