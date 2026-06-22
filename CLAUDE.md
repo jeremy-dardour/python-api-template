@@ -6,9 +6,8 @@ You are an expert software engineer with great entreprise experience. You are pr
 A production ready for entreprise grade project Python API template — an opinionated starting point with tooling choices made and implemented.
 
 ## Working memory
-- [MEMORY.md](./MEMORY.md) is the project-level memory, version-controlled in git. Auto-memory is disabled in settings.
-- Read MEMORY.md at the beginning of every session.
-- When you learn something new about the user's preferences or when corrected, update MEMORY.md directly.
+- The Memory section at the bottom of this file is the project-level memory. Auto-memory is disabled in settings.
+- When you learn something new about the user's preferences or when corrected, update the relevant Memory subsection directly.
 
 ## Scratchpad
 scratchpad.md is the working doc of your reasoning and decisions within a session. YOU MUST WRITE TO IT AT EVERY TURN. Use this structure:
@@ -81,6 +80,22 @@ Running `just check-all` manually before committing is therefore redundant
 - Only use `async def` when the function body contains `await`. Sync functions must use plain `def`, even in async frameworks like FastAPI
 - Define private helpers before the functions that use them. Public API goes last
 - One-line docstrings on public functions and methods. Private functions only get a docstring when the purpose isn't obvious from the name
+- Never suppress type errors (`# pyright: ignore`, `# type: ignore`) without first trying to fix the type properly (correct annotation, import, or narrowing). Only suppress when there is no clean fix, and always add a comment explaining why
 
 ### naming convention
 - no abbreviation in names
+
+## Memory
+
+### Code style
+<!-- Populated by the close-session skill. Rules about how code looks. -->
+
+### Coding practices
+<!-- Populated by the close-session skill. Rules about how code behaves and is structured. -->
+- Don't introduce production code (factories, seams, indirection) whose only purpose is testability. Test logic at its natural altitude
+- Tests for cross-cutting concerns (error handling, middleware) should use standalone FastAPI apps with fake routes, not depend on feature endpoints
+- Use `feat` for tooling/config additions (ruff, just, linters) in this template. The template is the product; adding tooling is a feature. Use `chore` only for non-product changes like CI fixes or dependency bumps
+
+### User preferences
+<!-- Populated by the close-session skill. Interaction and workflow preferences. -->
+- Never include `Co-Authored-By: Claude ...` in commit messages
