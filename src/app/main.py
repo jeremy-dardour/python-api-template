@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.core.config import get_settings
 from app.core.exception_handlers import register_exception_handlers
+from app.core.middleware import SecurityHeadersMiddleware
 from app.core.router import api_router
 from app.health.router import router as health_router
 
@@ -16,6 +17,8 @@ app = FastAPI(
     redoc_url=settings.redoc_url,
     openapi_url=settings.openapi_url,
 )
+
+app.add_middleware(SecurityHeadersMiddleware, environment=settings.environment)
 
 # Default-closed: no origins allowed until CORS_ORIGINS is set.
 app.add_middleware(
