@@ -36,14 +36,16 @@ class PaginatedResponse(BaseModel, Generic[T]):
 Exceptions live in `app.core.errors`. They are purely domain concepts with no HTTP knowledge. Naming follows Python convention: `Error` suffix for all domain exceptions.
 
 ```
-DomainError(Exception)          # base for all domain errors
-├── NotFoundError               # resource does not exist
-├── ConflictError               # duplicate or state conflict
-├── DomainValidationError       # business rule violation
-└── AuthorizationError          # insufficient permissions
+DomainError(Exception)          # abstract base, cannot be raised directly
+├── NotFoundError               # 404 Not Found
+├── ConflictError               # 409 Conflict
+├── DomainValidationError       # 422 Validation Error
+└── AuthorizationError          # 403 Forbidden
 ```
 
-Each exception carries a `detail` message string for entity-specific context.
+`DomainError` is abstract. Raising it directly is a `TypeError`. Extend with a specific subclass.
+
+Each error class carries `status`, `title`, and `detail`. The `status` and `title` are class-level defaults. The `detail` message is set per instance for entity-specific context. The exception handler reads these directly -- no separate mapping needed.
 
 ## Error responses (RFC 9457)
 
@@ -67,7 +69,7 @@ All errors conform to Problem Details. Content-Type: `application/problem+json`.
   "detail": "Request body contains invalid fields.",
   "errors": [
     {
-      "field": "name",
+      "field": "body.name",
       "message": "Field required",
       "type": "missing"
     }
@@ -100,9 +102,14 @@ Service raises DomainError
         ├── ConflictError         → 409
         ├── DomainValidationError → 422
         ├── AuthorizationError    → 403
+        ├── HTTPException         → uses exc.status_code, preserves exc.headers
         ├── RequestValidationError → 422 (ValidationProblemDetail with errors field)
         └── catch-all Exception   → 500 (generic body, logs traceback)
 ```
+
+Subclasses of registered domain errors inherit the parent's status mapping via MRO traversal.
+
+Validation error `field` values include the source prefix: `body.name`, `path.item_id`, `query.page`. Clients can split on the first dot to separate source from field name.
 
 `register_exception_handlers(app)` in `app.core.exception_handlers` wires all handlers. Called once from `main.py`.
 

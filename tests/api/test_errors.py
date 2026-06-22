@@ -3,12 +3,14 @@ from collections.abc import AsyncGenerator
 from uuid import UUID
 
 import pytest
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from httpx import ASGITransport, AsyncClient
+from pydantic import BaseModel
 
 from app.core.errors import (
     AuthorizationError,
     ConflictError,
+    DomainError,
     DomainValidationError,
     NotFoundError,
 )
@@ -42,9 +44,35 @@ async def error_client() -> AsyncGenerator[AsyncClient]:
     async def _validate(item_id: UUID) -> dict[str, str]:
         return {"id": str(item_id)}
 
+    class CreateBody(BaseModel):
+        name: str
+
+    @error_app.post("/validate-body")
+    async def _validate_body(body: CreateBody) -> dict[str, str]:
+        return {"name": body.name}
+
     @error_app.get("/boom")
     async def _boom() -> None:
         raise RuntimeError("kaboom")
+
+    @error_app.get("/http-exception")
+    async def _http_exception() -> None:
+        raise HTTPException(status_code=401, detail="Not authenticated")
+
+    @error_app.get("/http-exception-with-headers")
+    async def _http_exception_with_headers() -> None:
+        raise HTTPException(
+            status_code=401,
+            detail="Not authenticated",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+
+    class SpecificNotFoundError(NotFoundError):
+        pass
+
+    @error_app.get("/subclass-error")
+    async def _subclass_error() -> None:
+        raise SpecificNotFoundError("Specific thing not found.")
 
     async with AsyncClient(
         transport=ASGITransport(app=error_app, raise_app_exceptions=False),
@@ -120,9 +148,20 @@ class TestRequestValidationError:
         assert isinstance(body["errors"], list)
         assert len(body["errors"]) > 0
         error = body["errors"][0]
-        assert "field" in error
+        assert error["field"] == "path.item_id"
         assert "message" in error
         assert "type" in error
+
+    async def test_body_validation_includes_source_prefix(self, error_client: AsyncClient) -> None:
+        response = await error_client.post(
+            "/validate-body",
+            json={},
+        )
+
+        assert response.status_code == 422
+        body = response.json()
+        error = body["errors"][0]
+        assert error["field"] == "body.name"
 
 
 class TestUnhandledError:
@@ -143,3 +182,39 @@ class TestUnhandledError:
         body = response.json()
         assert "kaboom" not in body["detail"]
         assert "traceback" not in str(body).lower()
+
+
+class TestHTTPException:
+    async def test_returns_problem_detail(self, error_client: AsyncClient) -> None:
+        response = await error_client.get("/http-exception")
+
+        assert response.status_code == 401
+        assert response.headers["content-type"] == PROBLEM_JSON
+        body = response.json()
+        assert body["type"] == "about:blank"
+        assert body["title"] == "Unauthorized"
+        assert body["status"] == 401
+        assert body["detail"] == "Not authenticated"
+
+    async def test_preserves_headers(self, error_client: AsyncClient) -> None:
+        response = await error_client.get("/http-exception-with-headers")
+
+        assert response.status_code == 401
+        assert response.headers["www-authenticate"] == "Bearer"
+
+
+class TestDomainErrorSubclass:
+    async def test_subclass_inherits_parent_status(self, error_client: AsyncClient) -> None:
+        response = await error_client.get("/subclass-error")
+
+        assert response.status_code == 404
+        assert response.headers["content-type"] == PROBLEM_JSON
+        body = response.json()
+        assert body["title"] == "Not Found"
+        assert body["detail"] == "Specific thing not found."
+
+
+class TestDomainErrorIsAbstract:
+    def test_cannot_instantiate_directly(self) -> None:
+        with pytest.raises(TypeError):
+            _ = DomainError("should fail")
