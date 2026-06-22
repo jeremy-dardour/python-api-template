@@ -101,10 +101,7 @@ Running `just check-all` manually before committing is therefore redundant
 - Don't introduce production code (factories, seams, indirection) whose only purpose is testability. Test logic at its natural altitude
 - For cross-cutting concern tests (error handling, middleware), prefer the real app via a stable endpoint like `/health`. Stand up a standalone FastAPI app with fake routes only when you need a construction the real app cannot give (e.g. `environment="production"`) or a route it does not expose (e.g. one that raises an unhandled exception)
 - Use `feat` for tooling/config additions (ruff, just, linters) in this template. The template is the product; adding tooling is a feature. Use `chore` only for non-product changes like CI fixes or dependency bumps
-- Testing structlog output: `capture_logs()` strips the processor chain (drops contextvar keys like `request_id`); pass `capture_logs(processors=[structlog.contextvars.merge_contextvars])` to surface them. It mutates the processor list in place so it works with cached loggers; a fresh `configure(processors=[...])` does not
-- Static log metadata (service, version) goes in a processor, not startup `bind_contextvars` (a per-request `clear_contextvars()` would wipe it). Deployment facts like `environment` are tagged by the log shipper, not self-reported by the app
 
 ### User preferences
 <!-- Populated by the close-session skill. Interaction and workflow preferences. -->
 - Never include `Co-Authored-By: Claude ...` in commit messages
-- Not every tooling/config addition needs an ADR (Dependabot got none); reserve ADRs for decisions with real tradeoffs. Keep each commit scoped to one concern
