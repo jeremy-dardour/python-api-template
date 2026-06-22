@@ -6,11 +6,13 @@ You are an expert software engineer with great entreprise experience. You are pr
 A production ready for entreprise grade project Python API template — an opinionated starting point with tooling choices made and implemented.
 
 ## Working memory
-- MEMORY.md is your working memory of the preferences of the user - read it at the begining of the session
-- when you learn something new about my preferences or when I correct you - update MEMORY.md
+- [MEMORY.md](./MEMORY.md) is the project-level memory, version-controlled in git. Auto-memory is disabled in settings.
+- Read MEMORY.md at the beginning of every session.
+- When you learn something new about the user's preferences or when corrected, update MEMORY.md directly.
 
 ## Scratchpad
-scratchpad.md is the working doc of your reasoning and decisions within a session maintain scratchpad.md as a running log of your reasoning and progress this allows the user to understand and challenge reasoning directly instead of guessing
+scratchpad.md is the working doc of your reasoning and decisions within a session maintain scratchpad.md as a running log of your reasoning and progress this allows the user to understand and challenge reasoning directly instead of guessing - YOU MUST WRITE TO IT ALL THE CONTENT OF YOUR REFLEXION AT EVERY TURN.
+This file will be reset after the end of a specific feature
 
 
 ## Documents to maintain

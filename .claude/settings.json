@@ -1,0 +1,10 @@
+{
+  "autoMemoryEnabled": false,
+  "permissions": {
+    "allow": [
+      "Bash(just *)",
+      "Edit(scratchpad.md)",
+      "Write(scratchpad.md)"
+    ]
+  }
+}
