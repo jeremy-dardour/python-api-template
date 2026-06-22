@@ -20,4 +20,3 @@ Architectural and tooling decisions are recorded as individual ADRs in [`adrs/`]
 | [014](014-app_configuration.md) | 2026-06-13 | App Configuration | pydantic-settings with BaseSettings |
 | [015](015-response_structure.md) | 2026-06-16 | Response Structure | RFC 9457 errors, bare domain models for success, metadata in headers |
 | [016](016-structured_logging.md) | 2026-06-22 | Structured Logging | structlog, request_id via contextvars, clear-at-entry binding, finally-based access line |
-| [017](017-containerization.md) | 2026-06-22 | Containerization | python:3.13-slim, pinned uv, single stage, non-root, venv entrypoint, no in-image healthcheck |
