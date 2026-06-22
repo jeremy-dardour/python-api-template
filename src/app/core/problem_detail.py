@@ -19,7 +19,7 @@ class ValidationProblemDetail(ProblemDetail):
     errors: list[FieldError]
 
 
-NOT_FOUND_RESPONSE: dict[str, object] = {
+NOT_FOUND_RESPONSE_EXAMPLE: dict[str, object] = {
     "model": ProblemDetail,
     "content": {
         "application/problem+json": {
@@ -34,7 +34,7 @@ NOT_FOUND_RESPONSE: dict[str, object] = {
     },
 }
 
-VALIDATION_ERROR_RESPONSE: dict[str, object] = {
+VALIDATION_ERROR_RESPONSE_EXAMPLE: dict[str, object] = {
     "model": ValidationProblemDetail,
     "content": {
         "application/problem+json": {
