@@ -3,6 +3,8 @@
   "permissions": {
     "allow": [
       "Bash(just *)",
+      "Bash(git status *)",
+      "Bash(git diff *)",
       "Edit(scratchpad.md)",
       "Write(scratchpad.md)"
     ]
