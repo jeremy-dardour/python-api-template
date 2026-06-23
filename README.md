@@ -17,8 +17,6 @@ Personal template for Python API projects.
 
 ## Not included (yet)
 
-Deliberately left to the adopter, tracked in [TODO.md](./TODO.md):
-
 - Database, ORM, and migrations
 - Authentication and authorization
 - Rate limiting
