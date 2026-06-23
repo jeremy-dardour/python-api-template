@@ -91,3 +91,12 @@ fail the run.
 Every pull request and every push to `main` runs lint, format, type-check, and tests on
 GitHub Actions. The same `just` recipes run locally and in CI. See
 [docs/ci-cd.md](./docs/ci-cd.md) for the goals, decisions, and cost-control measures.
+
+## AI coding setup
+
+The template ships with a configured workflow for [Claude Code](https://claude.com/claude-code):
+
+- **[CLAUDE.md](./CLAUDE.md)** — project instructions Claude loads automatically: philosophy, technical and coding standards, naming conventions, and a project-level Memory section holding learned preferences.
+- **Memory** — the `## Memory` section at the bottom of `CLAUDE.md` accumulates durable learnings (code style, coding practices, user preferences). Auto-memory is disabled; entries are added deliberately, usually at session close.
+- **[scratchpad.md](./scratchpad.md)** — the per-session working doc for reasoning, decisions, feedback, and open questions. It carries a session-handoff block so a fresh session can resume after a crash. Cleared at session close.
+- **`/close-session` skill** ([.claude/skills/close-session](./.claude/skills/close-session)) — end-of-session cleanup: commits pending work in logical groups, extracts learnings from the scratchpad into the `CLAUDE.md` Memory section, then clears the scratchpad.

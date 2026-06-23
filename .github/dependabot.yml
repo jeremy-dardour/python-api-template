@@ -14,10 +14,13 @@ updates:
       prefix: "chore"
       include: "scope"
     groups:
-      python-dependencies:
+      patch-updates:
+        update-types:
+          - patch
+
+      minor-updates:
         update-types:
           - minor
-          - patch
 
   # GitHub Actions used by the CI workflow.
   - package-ecosystem: "github-actions"
